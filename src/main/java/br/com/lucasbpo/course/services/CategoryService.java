@@ -9,17 +9,17 @@ import java.util.List;
 @Service
 public class CategoryService {
 
-    private CategoryRepository CategoryRepository;
+    private CategoryRepository categoryRepository;
 
     public CategoryService(CategoryRepository CategoryRepository) {
-        this.CategoryRepository = CategoryRepository;
+        this.categoryRepository = CategoryRepository;
     }
 
     public List<Category> findAll() {
-        return CategoryRepository.findAll();
+        return categoryRepository.findAll();
     }
 
     public Category findById(Long id) {
-        return CategoryRepository.findById(id).get();
+        return categoryRepository.findById(id).get();
     }
 }
