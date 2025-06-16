@@ -2,6 +2,7 @@ package br.com.lucasbpo.course.configuration;
 
 import br.com.lucasbpo.course.entities.Order;
 import br.com.lucasbpo.course.entities.User;
+import br.com.lucasbpo.course.entities.enums.OrderStatus;
 import br.com.lucasbpo.course.repositories.OrderRepository;
 import br.com.lucasbpo.course.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -34,9 +35,9 @@ public class TestConfiguration implements CommandLineRunner {
 
         var users = List.of(firstUser, secondUser);
         var orders = List.of(
-                new Order(null, Instant.parse("2019-06-20T19:53:07Z"), firstUser),
-                new Order(null, Instant.parse("2019-07-21T03:42:10Z"), secondUser),
-                new Order(null, Instant.parse("2019-07-22T15:21:22Z"), firstUser)
+                new Order(null, Instant.parse("2019-06-20T19:53:07Z"), OrderStatus.PAID, firstUser),
+                new Order(null, Instant.parse("2019-07-21T03:42:10Z"), OrderStatus.WAITING_PAYMENT, secondUser),
+                new Order(null, Instant.parse("2019-07-22T15:21:22Z"), OrderStatus.WAITING_PAYMENT, firstUser)
         );
 
         userRepository.saveAll(users);
