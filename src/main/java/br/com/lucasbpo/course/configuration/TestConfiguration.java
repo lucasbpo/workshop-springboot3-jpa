@@ -66,5 +66,13 @@ public class TestConfiguration implements CommandLineRunner {
         orderRepository.saveAll(orders);
         categoryRepository.saveAll(categories);
         productRepository.saveAll(products);
+
+        firstProduct.getCategories().add(secondCategory);
+        secondProduct.getCategories().addAll(List.of(firstCategory, thirdCategory));
+        thirdProduct.getCategories().add(thirdCategory);
+        fourthProduct.getCategories().add(thirdCategory);
+        fifthProduct.getCategories().add(secondCategory);
+
+        productRepository.saveAll(products);
     }
 }
