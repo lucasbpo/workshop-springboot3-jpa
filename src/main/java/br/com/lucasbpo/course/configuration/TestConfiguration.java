@@ -2,10 +2,12 @@ package br.com.lucasbpo.course.configuration;
 
 import br.com.lucasbpo.course.entities.Category;
 import br.com.lucasbpo.course.entities.Order;
+import br.com.lucasbpo.course.entities.OrderItem;
 import br.com.lucasbpo.course.entities.Product;
 import br.com.lucasbpo.course.entities.User;
 import br.com.lucasbpo.course.entities.enums.OrderStatus;
 import br.com.lucasbpo.course.repositories.CategoryRepository;
+import br.com.lucasbpo.course.repositories.OrderItemRepository;
 import br.com.lucasbpo.course.repositories.OrderRepository;
 import br.com.lucasbpo.course.repositories.ProductRepository;
 import br.com.lucasbpo.course.repositories.UserRepository;
@@ -22,17 +24,20 @@ public class TestConfiguration implements CommandLineRunner {
 
     private UserRepository userRepository;
     private OrderRepository orderRepository;
+    private OrderItemRepository orderItemRepository;
     private CategoryRepository categoryRepository;
     private ProductRepository productRepository;
 
     public TestConfiguration(
             UserRepository userRepository,
             OrderRepository orderRepository,
+            OrderItemRepository orderItemRepository,
             CategoryRepository categoryRepository,
             ProductRepository productRepository
     ) {
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
+        this.orderItemRepository = orderItemRepository;
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
     }
@@ -74,5 +79,14 @@ public class TestConfiguration implements CommandLineRunner {
         fifthProduct.getCategories().add(secondCategory);
 
         productRepository.saveAll(products);
+
+        var orderItems = List.of(
+                new OrderItem(orders.getFirst(), products.getFirst(), 2, products.getFirst().getPrice()),
+                new OrderItem(orders.getFirst(), products.get(2), 1, products.get(2).getPrice()),
+                new OrderItem(orders.get(1), products.get(2), 2, products.get(2).getPrice()),
+                new OrderItem(orders.get(2), products.get(4), 2, products.get(4).getPrice())
+        );
+
+        orderItemRepository.saveAll(orderItems);
     }
 }
