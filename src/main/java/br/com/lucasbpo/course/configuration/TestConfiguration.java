@@ -3,6 +3,7 @@ package br.com.lucasbpo.course.configuration;
 import br.com.lucasbpo.course.entities.Category;
 import br.com.lucasbpo.course.entities.Order;
 import br.com.lucasbpo.course.entities.OrderItem;
+import br.com.lucasbpo.course.entities.Payment;
 import br.com.lucasbpo.course.entities.Product;
 import br.com.lucasbpo.course.entities.User;
 import br.com.lucasbpo.course.entities.enums.OrderStatus;
@@ -88,5 +89,11 @@ public class TestConfiguration implements CommandLineRunner {
         );
 
         orderItemRepository.saveAll(orderItems);
+
+        var orderPaid = orders.getFirst();
+        var pay = new Payment(null, Instant.parse("2019-06-20T21:53:07Z"), orderPaid);
+        orderPaid.setPayment(pay);
+
+        orderRepository.save(orderPaid);
     }
 }
