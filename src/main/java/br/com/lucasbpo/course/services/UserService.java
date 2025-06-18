@@ -4,6 +4,7 @@ import br.com.lucasbpo.course.entities.User;
 import br.com.lucasbpo.course.repositories.UserRepository;
 import br.com.lucasbpo.course.services.exceptions.DatabaseException;
 import br.com.lucasbpo.course.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -43,9 +44,14 @@ public class UserService {
     }
 
     public User update(Long id, User obj) {
-        User entity = userRepository.getReferenceById(id);
-        updateData(entity, obj);
-        return userRepository.save(entity);
+        try {
+            User entity = userRepository.getReferenceById(id);
+            updateData(entity, obj);
+            return userRepository.save(entity);
+        } catch (EntityNotFoundException ex) {
+            throw new ResourceNotFoundException(id);
+
+        }
     }
 
     private void updateData(User entity, User obj) {
