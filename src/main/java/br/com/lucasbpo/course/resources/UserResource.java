@@ -3,6 +3,7 @@ package br.com.lucasbpo.course.resources;
 import br.com.lucasbpo.course.entities.User;
 import br.com.lucasbpo.course.services.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,5 +45,11 @@ public class UserResource {
                 .toUri();
 
         return ResponseEntity.created(location).body(user);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
