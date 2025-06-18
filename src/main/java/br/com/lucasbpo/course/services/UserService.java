@@ -2,7 +2,10 @@ package br.com.lucasbpo.course.services;
 
 import br.com.lucasbpo.course.entities.User;
 import br.com.lucasbpo.course.repositories.UserRepository;
+import br.com.lucasbpo.course.services.exceptions.DatabaseException;
 import br.com.lucasbpo.course.services.exceptions.ResourceNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,7 +32,14 @@ public class UserService {
     }
 
     public void delete(Long id) {
-        userRepository.deleteById(id);
+        if(!userRepository.existsById(id))
+            throw new ResourceNotFoundException(id);
+
+        try {
+            userRepository.deleteById(id);
+        } catch (DataIntegrityViolationException ex) {
+            throw new DatabaseException(ex.getMessage());
+        }
     }
 
     public User update(Long id, User obj) {
