@@ -2,6 +2,7 @@ package br.com.lucasbpo.course.services;
 
 import br.com.lucasbpo.course.entities.User;
 import br.com.lucasbpo.course.repositories.UserRepository;
+import br.com.lucasbpo.course.services.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class UserService {
     }
 
     public User findById(Long id) {
-        return userRepository.findById(id).get();
+        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     public User insert(User obj) {
